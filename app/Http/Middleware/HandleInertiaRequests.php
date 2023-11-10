@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Booking;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
@@ -30,14 +31,24 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $user = $request->user();
+        $bookingInfo = null;
+
+        if ($user !== null) {
+            $bookingInfo = Booking::query()->where('user_id', $user->id)->get();
+        }
+
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user(),
+                'user' => $user,
             ],
             'ziggy' => fn () => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
+            ],
+            'booking' => [
+                'booking_info' => $bookingInfo,
             ],
         ];
     }

@@ -6,6 +6,7 @@ import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/vue3';
+import BookingCounter from "@/Components/Booking/BookingCounter.vue";
 
 const showingNavigationDropdown = ref(false);
 </script>
@@ -31,6 +32,9 @@ const showingNavigationDropdown = ref(false);
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink :href="route('main')" :active="route().current('main')">
                                     Отели
+                                </NavLink>
+                                <NavLink :href="route('bookings')" :active="route().current('bookings')" class="navlink_booking">
+                                    Забронированные <BookingCounter/>
                                 </NavLink>
                             </div>
                         </div>
