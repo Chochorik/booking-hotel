@@ -19,11 +19,11 @@
             <fieldset class="form__block mb-2">
                 <legend class="form__legend">Категория:</legend>
                 <div class="rating rating-md">
-                    <input type="radio" name="rating-7" class="mask mask-star-2 bg-orange-400" />
-                    <input type="radio" name="rating-7" class="mask mask-star-2 bg-orange-400" />
-                    <input type="radio" name="rating-7" class="mask mask-star-2 bg-orange-400" />
-                    <input type="radio" name="rating-7" class="mask mask-star-2 bg-orange-400" />
-                    <input type="radio" name="rating-7" class="mask mask-star-2 bg-orange-400" />
+                    <input v-model="rating" type="radio" name="rating" class="mask mask-star-2 bg-orange-400" />
+                    <input v-model="rating" type="radio" name="rating" class="mask mask-star-2 bg-orange-400" />
+                    <input v-model="rating" type="radio" name="rating" class="mask mask-star-2 bg-orange-400" />
+                    <input v-model="rating" type="radio" name="rating" class="mask mask-star-2 bg-orange-400" />
+                    <input v-model="rating" type="radio" name="rating" class="mask mask-star-2 bg-orange-400" />
                 </div>
             </fieldset>
 
@@ -50,14 +50,18 @@
 <script>
 export default {
     name: "HotelFilter",
-    components: {}
-
+    data() {
+        return {
+            rating: 0,
+        }
+    }
 }
 </script>
 
 <style scoped>
 .filter {
     margin-right: 30px;
+    min-height: fit-content;
 }
 
 .form__label {

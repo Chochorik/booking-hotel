@@ -3,6 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import HotelList from "@/Components/Hotel/HotelList.vue";
 import HotelFilter from "@/Components/Hotel/HotelFilter.vue";
+import HotelPagination from "@/Components/Hotel/HotelPagination.vue";
 import axios from "axios";
 
 export default {
@@ -23,6 +24,7 @@ export default {
         Head,
         HotelFilter,
         HotelList,
+        HotelPagination,
     },
     methods: {
         getHotels() {
@@ -36,6 +38,11 @@ export default {
                     this.totalPages = response.data.total;
                 })
         }
+    },
+    watch: {
+        page() {
+            this.getHotels();
+        },
     },
     created() {
         this.getHotels();
@@ -53,7 +60,14 @@ export default {
 
         <div class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-row flex-nowrap">
             <HotelFilter class="basis-1/4"/>
-            <HotelList class="basis-4/5" :hotels="hotelsData" />
+            <div class="flex flex-col items-center basis-3/4">
+                <HotelList class="mb-6" :hotels="hotelsData" />
+                <HotelPagination
+                    v-model:page="page"
+                    :count="hotelsData.total"
+                    :per-page="hotelsData.per_page"
+                />
+            </div>
         </div>
     </AuthenticatedLayout>
 </template>
