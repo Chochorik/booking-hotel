@@ -24,7 +24,7 @@
                 />
             </div>
             <div class="card-actions justify-end">
-                <button class="btn btn-primary">Подробнее...</button>
+                <Link :href="route('hotels.get.current', { 'id': hotel.id })" as="button" class="btn btn-primary">Подробнее...</Link>
             </div>
         </div>
     </div>

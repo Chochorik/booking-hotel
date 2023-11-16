@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\HotelController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Redirect;
@@ -49,8 +50,13 @@ require __DIR__.'/auth.php';
 // Hotels
 Route::middleware('auth')->group(function () {
     Route::get('/hotels/all', [HotelController::class, 'showAll'])->name('hotels.get.all');
-    Route::get('/hotels/{id}', [HotelController::class, 'showHotel'])->name('hotels.get.accurate');
+    Route::get('/hotels/{id}', [HotelController::class, 'showHotel'])->name('hotels.get.current');
 });
+
+// Facilities
+Route::get('/facilities', [FacilityController::class, 'index'])
+    ->middleware('auth')
+    ->name('facilities');
 
 // Booking
 Route::middleware('auth')->group(function () {

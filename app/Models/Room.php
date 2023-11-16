@@ -24,6 +24,11 @@ class Room extends Model
         'price',
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
     public function hotel(): BelongsTo
     {
         return $this->belongsTo(Hotel::class);
