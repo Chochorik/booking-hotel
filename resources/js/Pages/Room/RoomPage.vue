@@ -59,7 +59,7 @@
                                 <td class="text-lg">Площадь номера:</td>
                                 <td class="text-base">{{ room.floor_area }} м<sup>2</sup></td>
                             </tr>
-                            <tr>
+                            <tr v-show="facilities.length > 0">
                                 <td class="text-lg">Удобства отеля:</td>
                                 <td class="text-base">
                                     <ul>

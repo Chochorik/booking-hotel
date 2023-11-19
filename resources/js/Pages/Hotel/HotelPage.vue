@@ -51,7 +51,7 @@
                                     />
                                 </td>
                             </tr>
-                            <tr>
+                            <tr v-show="facilities.length > 0">
                                 <td class="text-lg">Удобства отеля:</td>
                                 <td class="text-base">
                                     <ul>
