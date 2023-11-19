@@ -20,9 +20,9 @@ export default {
     width: 20px;
     height: 20px;
     top: 37%;
-    right: 0%;
+    right: 0;
     left: 100%;
-    bottom: 0%;
+    bottom: 0;
     background-color: rgba(77, 77, 77, 0.78);
     border: 1px solid rgba(77, 77, 77, 0.78);;
     border-radius: 50%;
@@ -32,7 +32,6 @@ export default {
 }
 
 .noti_count {
-    font-family: "Montserrat", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
     color: aliceblue;
     font-weight: 700;
 }

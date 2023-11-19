@@ -48,6 +48,7 @@ class HotelController extends Controller
         return Inertia::render('Hotel/HotelPage', [
             'hotelInfo' => [
                 'hotelData' => $hotel,
+                'hotelFacilities' => $hotel->facilitiesOfHotel,
                 'roomsData' => $hotel->room,
             ],
         ]);

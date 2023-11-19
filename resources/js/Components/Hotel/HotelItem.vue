@@ -7,22 +7,9 @@
             <h2 class="card-title">{{ title }}</h2>
             <p class="text-sm">{{ truncatedDescr }}</p>
             <p class="text-sm text-gray-700 leading-relaxed subpixel-antialiased italic">Адрес: {{ hotel.address }}</p>
-            <div class="rating rating-md">
-                <input
-                    v-for="rating in hotel.rating"
-                    :key="rating"
-                    type="radio"
-                    class="mask mask-star-2 bg-orange-400"
-                    disabled
-                />
-                <input
-                    v-for="rating in incompleteRating"
-                    :key="rating"
-                    type="radio"
-                    class="mask mask-star-2 bg-gray-300"
-                    disabled
-                />
-            </div>
+            <HotelRating
+                :rating="hotel.rating"
+            />
             <div class="card-actions justify-end">
                 <Link :href="route('hotels.get.current', { 'id': hotel.id })" as="button" class="btn btn-primary">Подробнее...</Link>
             </div>
@@ -32,6 +19,9 @@
 
 <script>
 import { Link } from "@inertiajs/vue3";
+import HotelRating from "@/Components/Hotel/HotelRating.vue";
+import truncateDescription from "@/helpers/truncateDescription.js";
+import { NO_PHOTO_URL } from "@/dataConfig.js";
 
 export default {
     name: "HotelItem",
@@ -39,6 +29,7 @@ export default {
         hotel: Object,
     },
     components: {
+        HotelRating,
         Link,
     },
     computed: {
@@ -46,20 +37,12 @@ export default {
             return this.hotel.title.trim();
         },
         imageSrc() {
-            return 'storage/' + this.hotel.poster_url;
+            return this.hotel.poster_url ? '/storage/' + this.hotel.poster_url : NO_PHOTO_URL;
         },
         truncatedDescr() {
-            return this.truncate(this.hotel.description.trim(), 100,);
-        },
-        incompleteRating() {
-            return 5 - this.hotel.rating;
+            return truncateDescription(this.hotel.description.trim(), 100);
         }
     },
-    methods: {
-        truncate(str, n){
-            return (str.length > n) ? str.slice(0, n-1) + '...' : str;
-        },
-    }
 }
 </script>
 

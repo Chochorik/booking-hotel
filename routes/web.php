@@ -3,6 +3,7 @@
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\HotelController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RoomController;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -51,6 +52,11 @@ require __DIR__.'/auth.php';
 Route::middleware('auth')->group(function () {
     Route::get('/hotels/all', [HotelController::class, 'showAll'])->name('hotels.get.all');
     Route::get('/hotels/{id}', [HotelController::class, 'showHotel'])->name('hotels.get.current');
+});
+
+// Rooms
+Route::middleware('auth')->group(function () {
+    Route::get('/room/{id}', [RoomController::class, 'getRoom'])->name('room.get.current');
 });
 
 // Facilities

@@ -14,7 +14,13 @@ class Facility extends Model
         'title',
     ];
 
-    public function facilityHotel(): HasMany
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'laravel_through_key'
+    ];
+
+    public function facilitiesHotel(): HasMany
     {
         return $this->hasMany(FacilityHotel::class);
     }

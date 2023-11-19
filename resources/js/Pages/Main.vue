@@ -14,7 +14,14 @@
                 v-model:rating="filterRating"
                 v-model:facilities="filterFacilities"
             />
-            <div class="flex flex-col items-center basis-3/4">
+
+            <VLoader
+                v-if="loadedHotels"
+            />
+            <div
+                v-else
+                class="flex flex-col items-center basis-3/4"
+            >
                 <HotelList class="mb-6" :hotels="hotelsData" />
                 <HotelPagination
                     v-model:page="page"
@@ -32,6 +39,7 @@ import { Head } from '@inertiajs/vue3';
 import HotelList from "@/Components/Hotel/HotelList.vue";
 import HotelFilter from "@/Components/Hotel/HotelFilter.vue";
 import HotelPagination from "@/Components/Hotel/HotelPagination.vue";
+import VLoader from "@/Components/VLoader.vue";
 import { getAllHotels } from "@/api/hotelsData.js";
 
 export default {
@@ -45,6 +53,8 @@ export default {
             hotelsData: Object,
             page: 1,
             totalPages: Number,
+
+            loadedHotels: false,
         }
     },
     components: {
@@ -53,9 +63,12 @@ export default {
         HotelFilter,
         HotelList,
         HotelPagination,
+        VLoader,
     },
     methods: {
         getHotels() {
+            this.loadedHotels = true;
+
             getAllHotels({
                 page: this.page,
                 priceFrom: this.filterPriceFrom,
@@ -66,6 +79,8 @@ export default {
                 .then((response) => {
                     this.hotelsData = response.data;
                     this.totalPages = response.data.total;
+
+                    this.loadedHotels = false;
                 });
         }
     },
