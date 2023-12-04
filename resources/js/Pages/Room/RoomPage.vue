@@ -20,20 +20,17 @@
             </div>
         </template>
 
-        <div class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col flex-nowrap relative">
+        <div class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="m-full flex flex-row flex-nowrap justify-between">
                 <div class="w-6/12">
                     <h2 class="font-semibold text-2xl text-gray-800 leading-tight mb-4 py-2">
                         {{ room.title }}
                     </h2>
                     <img class="w-full mb-3" :src="roomImage" :alt="room.title">
-                    <button class="btn btn-primary text-lg px-10" @click="showModal">
-                        Забронировать
-                    </button>
                 </div>
                 <div class="w-6/12 pl-10">
                     <h2 class="font-semibold text-2xl text-gray-800 leading-tight mb-4">
-                        Описание номера
+                        Характеристики номера
                     </h2>
                     <table class="table table-zebra">
                         <thead>
@@ -46,10 +43,6 @@
                             <tr>
                                 <td class="text-lg">Название номера:</td>
                                 <td class="text-base">{{ room.title }}</td>
-                            </tr>
-                            <tr>
-                                <td class="text-lg">Описание:</td>
-                                <td class="text-base">{{ room.description }}</td>
                             </tr>
                             <tr>
                                 <td class="text-lg">Тип номера:</td>
@@ -79,7 +72,17 @@
                     </table>
                 </div>
             </div>
-            <BookingModal v-model:showBookingModal="showBookingModal" />
+            <div class="mb-4">
+                <p class="text-2xl">Описание:</p>
+                <p class="text-lg">{{ room.description }}</p>
+            </div>
+            <button class="btn btn-primary text-lg px-10" @click="showModal">
+                Забронировать
+            </button>
+            <BookingModal
+                v-model:showBookingModal="showBookingModal"
+                :data="room"
+            />
         </div>
     </AuthenticatedLayout>
 </template>

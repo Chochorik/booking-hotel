@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\HotelController;
 use App\Http\Controllers\ProfileController;
@@ -50,7 +51,7 @@ require __DIR__.'/auth.php';
 
 // Hotels
 Route::middleware('auth')->group(function () {
-    Route::get('/hotels/all', [HotelController::class, 'showAll'])->name('hotels.get.all');
+    Route::get('/hotels/all', [HotelController::class, 'index'])->name('hotels.get.all');
     Route::get('/hotels/{id}', [HotelController::class, 'showHotel'])->name('hotels.get.current');
 });
 
@@ -69,5 +70,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/bookings', function () {
         return Inertia::render('');
     })->name('bookings');
+    Route::get('/booking/dates/{room_id}', [BookingController::class, 'getBookedDates'])
+        ->name('bookings.dates');
+    Route::post('/booking', [BookingController::class, 'createBooking'])
+        ->name('booking.store');
 });
 

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export function getAllHotels(params) {
-    return axios.get('/hotels/all', {
+    return axios.get(route('hotels.get.all'), {
         params: {
             'page': params.page,
             'priceFrom': params.priceFrom,

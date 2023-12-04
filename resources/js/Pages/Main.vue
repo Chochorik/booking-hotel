@@ -41,6 +41,7 @@ import HotelFilter from "@/Components/Hotel/HotelFilter.vue";
 import HotelPagination from "@/Components/Hotel/HotelPagination.vue";
 import VLoader from "@/Components/VLoader.vue";
 import { getAllHotels } from "@/api/hotelsData.js";
+import {Inertia} from "@inertiajs/inertia";
 
 export default {
     data() {
@@ -56,6 +57,9 @@ export default {
 
             loadedHotels: false,
         }
+    },
+    props: {
+
     },
     components: {
         AuthenticatedLayout,

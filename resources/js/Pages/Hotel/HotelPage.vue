@@ -12,7 +12,11 @@
             </Link>
         </template>
         <div class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col flex-nowrap">
-            <div class="m-full flex flex-row flex-nowrap justify-between mb-10">
+            <VLoader
+                v-if="showLoader"
+            />
+
+            <div class="m-full flex flex-row flex-nowrap justify-between mb-10" v-else>
                 <div class="w-6/12">
                     <h2 class="font-semibold text-2xl text-gray-800 leading-tight mb-4 py-2">
                         {{ hotel.title }}
@@ -86,10 +90,16 @@ import { Link } from "@inertiajs/inertia-vue3";
 import FacilityItem from "@/Components/Facility/FacilityItem.vue";
 import HotelRating from "@/Components/Hotel/HotelRating.vue";
 import RoomList from "@/Components/Room/RoomList.vue";
+import VLoader from "@/Components/VLoader.vue";
 import { NO_PHOTO_URL } from "@/dataConfig.js";
 
 export default {
     name: "HotelPage",
+    data() {
+        return {
+            showLoader: false,
+        }
+    },
     components: {
         RoomList,
         HotelRating,
@@ -97,6 +107,7 @@ export default {
         Head,
         Link,
         FacilityItem,
+        VLoader,
     },
     props: {
         hotelInfo: {
@@ -117,7 +128,7 @@ export default {
         hotelImage() {
             return this.hotel.poster_url ? '/storage/' + this.hotel.poster_url : NO_PHOTO_URL;
         }
-    }
+    },
 }
 </script>
 

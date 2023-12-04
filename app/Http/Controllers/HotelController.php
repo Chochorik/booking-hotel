@@ -8,7 +8,7 @@ use Inertia\Inertia;
 
 class HotelController extends Controller
 {
-    public function showAll(Request $request): \Illuminate\Http\JsonResponse
+    public function index(Request $request): \Illuminate\Http\JsonResponse
     {
         $priceFrom = $request->get('priceFrom');
         $priceTo = $request->get('priceTo');

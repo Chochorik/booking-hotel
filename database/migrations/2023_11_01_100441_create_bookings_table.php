@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('room_id')->references('id')->on('rooms');
             $table->foreignId('user_id')->references('id')->on('users');
-            $table->dateTime('started_at');
-            $table->dateTime('finished_at');
+            $table->date('started_at');
+            $table->date('finished_at');
             $table->integer('days');
             $table->integer('price');
             $table->timestamps();

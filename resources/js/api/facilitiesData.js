@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export function getAllFacilities() {
-    return axios.get('/facilities');
+    return axios.get(route('facilities'));
 }
