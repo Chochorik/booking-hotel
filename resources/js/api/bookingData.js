@@ -6,8 +6,8 @@ export function getBookedDates(room_id) {
 
 export function createBooking(params) {
     return axios.post(route('booking.store'), {
-        params: {
-
-        },
+        'room_id': params.room_id,
+        'started_at': params.started_at,
+        'finished_at': params.finished_at,
     });
 }

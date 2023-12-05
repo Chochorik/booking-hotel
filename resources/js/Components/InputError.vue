@@ -1,14 +1,12 @@
 <script setup>
-defineProps({
-    message: {
-        type: String,
-    },
-});
+defineProps([
+    'messages',
+]);
 </script>
 
 <template>
-    <div v-show="message">
-        <p class="text-sm text-red-600">
+    <div v-show="messages">
+        <p v-for="message in messages" class="text-sm text-red-600">
             {{ message }}
         </p>
     </div>

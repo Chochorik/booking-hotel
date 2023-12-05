@@ -21,18 +21,18 @@
         </template>
 
         <div class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="m-full flex flex-row flex-nowrap justify-between">
+            <div class="m-full flex flex-row flex-nowrap justify-between mb-7">
                 <div class="w-6/12">
                     <h2 class="font-semibold text-2xl text-gray-800 leading-tight mb-4 py-2">
                         {{ room.title }}
                     </h2>
-                    <img class="w-full mb-3" :src="roomImage" :alt="room.title">
+                    <img class="w-full" :src="roomImage" :alt="room.title">
                 </div>
                 <div class="w-6/12 pl-10">
                     <h2 class="font-semibold text-2xl text-gray-800 leading-tight mb-4">
                         Характеристики номера
                     </h2>
-                    <table class="table table-zebra">
+                    <table class="table table-zebra mb-10">
                         <thead>
                             <tr>
                                 <th class="w-4/12"></th>
@@ -52,33 +52,31 @@
                                 <td class="text-lg">Площадь номера:</td>
                                 <td class="text-base">{{ room.floor_area }} м<sup>2</sup></td>
                             </tr>
-                            <tr v-show="facilities.length > 0">
-                                <td class="text-lg">Удобства отеля:</td>
-                                <td class="text-base">
-                                    <ul>
-                                        <FacilityItem
-                                            v-for="facility in facilities"
-                                            :key="facility.id"
-                                            :facility="facility"
-                                        />
-                                    </ul>
-                                </td>
-                            </tr>
                             <tr>
                                 <td class="text-lg">Стоимость номера (за ночь):</td>
-                                <td class="text-base">{{ priceFormat(room.price) }} ₽</td>
+                                <td class="text-base">{{ priceFormat(room.price) }} </td>
                             </tr>
                         </tbody>
                     </table>
+                    <button class="btn btn-primary text-lg px-10" @click="showModal">
+                        Забронировать
+                    </button>
                 </div>
             </div>
             <div class="mb-4">
                 <p class="text-2xl">Описание:</p>
                 <p class="text-lg">{{ room.description }}</p>
             </div>
-            <button class="btn btn-primary text-lg px-10" @click="showModal">
-                Забронировать
-            </button>
+            <div v-show="facilities.length > 0" class="mb-4">
+                    <p class="text-2xl">Удобства отеля:</p>
+                    <ul class="text-lg">
+                        <FacilityItem
+                            v-for="facility in facilities"
+                            :key="facility.id"
+                            :facility="facility"
+                        />
+                    </ul>
+            </div>
             <BookingModal
                 v-model:showBookingModal="showBookingModal"
                 :data="room"

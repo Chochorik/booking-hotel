@@ -20,34 +20,54 @@ class BookingController extends Controller
     public function createBooking(Request $request)
     {
         $validatedFields = $request->validate([
+            'room_id' => ['required'],
             'started_at' => ['required', 'date_format:Y-m-d'],
             'finished_at' => ['required', 'date_format:Y-m-d', 'after_or_equal:started_at'],
         ]);
 
-        $roomPrice = Room::findOrFail($request->get('room_id'))->get(['price']);
+        $roomPrice = Room::findOrFail($validatedFields['room_id'])->value('price');
 
         $startDate = Carbon::parse($validatedFields['started_at']);
         $endDate = Carbon::parse($validatedFields['finished_at']);
 
         $numberOfDays = $startDate->diffInDays($endDate);
 
-        // ...... сделать валидацию на случай, если выбранные даты уже забронированы
+        $currentPrice = $roomPrice * ($numberOfDays + 1);
+
+        $existingBookings = Booking::where('room_id', $validatedFields['room_id'])
+            ->where(function ($query) use ($startDate, $endDate) {
+                $query->whereBetween('started_at', [$startDate, $endDate])
+                    ->orWhereBetween('finished_at', [$startDate, $endDate])
+                    ->orWhere('started_at', $startDate)
+                    ->orWhere('finished_at', $endDate);
+            })
+            ->get();
+
+        if ($existingBookings->isNotEmpty()) {
+            return response()->json([
+                'errors' => [
+                    'message' => 'Выбранные даты уже забронированы.',
+                ],
+            ], 422);
+        }
 
         try {
             $booking = new Booking();
 
-            $booking->user_id = $request->get('user_id');
-            $booking->room_id = $request->get('room_id');
+            $booking->user_id = auth()->user()->id;
+            $booking->room_id = $validatedFields['room_id'];
             $booking->started_at = $startDate;
             $booking->finished_at = $endDate;
             $booking->days = $numberOfDays;
-            $booking->price = $roomPrice * $numberOfDays;
+            $booking->price = $currentPrice;
 
             $booking->save();
 
             return response()->json($booking, 201);
         } catch (ModelNotFoundException|\Exception $exception) {
-            return response()->json($exception->getMessage(), 500);
+            return response()->json([
+                'errors' => $exception->getMessage(),
+            ], 500);
         }
     }
 }
