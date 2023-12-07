@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col justify-center content-center loader-container">
         <div class="loader"></div>
-        <p>
+        <p class="text-center">
             Загрузка, подождите...
         </p>
     </div>

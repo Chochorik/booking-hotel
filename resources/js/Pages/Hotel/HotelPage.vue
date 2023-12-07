@@ -12,15 +12,15 @@
             </Link>
         </template>
         <div class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col flex-nowrap">
-            <VLoader
-                v-if="showLoader"
-            />
-
-            <div class="m-full flex flex-row flex-nowrap justify-between mb-10" v-else>
-                <div class="w-6/12">
+            <div class="m-full flex flex-row flex-nowrap justify-between mb-10">
+                <div class="w-6/12 flex flex-col justify-between align-center relative">
                     <h2 class="font-semibold text-2xl text-gray-800 leading-tight mb-4 py-2">
                         {{ hotel.title }}
                     </h2>
+                    <VLoader
+                        v-show="showLoader"
+                        class="absolute loader-container"
+                    />
                     <img class="w-full" :src="hotelImage" :alt="hotel.title">
                 </div>
                 <div class="w-6/12 pl-10">
@@ -97,7 +97,7 @@ export default {
     name: "HotelPage",
     data() {
         return {
-            showLoader: false,
+            showLoader: true,
         }
     },
     components: {
@@ -129,9 +129,19 @@ export default {
             return this.hotel.poster_url ? '/storage/' + this.hotel.poster_url : NO_PHOTO_URL;
         }
     },
+    created() {
+        const img = new Image();
+        img.src = this.hotelImage;
+        img.onload = () => {
+            this.showLoader = false;
+        };
+    }
 }
 </script>
 
 <style scoped>
-
+.loader-container {
+    top: 50%;
+    left: 40%;
+}
 </style>

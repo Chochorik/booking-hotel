@@ -22,10 +22,14 @@
 
         <div class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="m-full flex flex-row flex-nowrap justify-between mb-7">
-                <div class="w-6/12">
+                <div class="w-6/12 flex flex-col justify-between align-center relative">
                     <h2 class="font-semibold text-2xl text-gray-800 leading-tight mb-4 py-2">
                         {{ room.title }}
                     </h2>
+                    <VLoader
+                        v-show="showLoader"
+                        class="absolute loader-container"
+                    />
                     <img class="w-full" :src="roomImage" :alt="room.title">
                 </div>
                 <div class="w-6/12 pl-10">
@@ -90,6 +94,7 @@ import { Link } from "@inertiajs/vue3";
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import FacilityItem from "@/Components/Facility/FacilityItem.vue";
 import { Head } from '@inertiajs/vue3';
+import VLoader from "@/Components/VLoader.vue";
 import { NO_PHOTO_URL } from "@/dataConfig.js";
 import BookingModal from "@/Components/Booking/BookingModal.vue";
 import priceFormat from "@/helpers/priceFormat.js";
@@ -99,6 +104,8 @@ export default {
     data() {
         return {
             showBookingModal: false,
+
+            showLoader: true,
         }
     },
     components: {
@@ -107,6 +114,7 @@ export default {
         Link,
         FacilityItem,
         BookingModal,
+        VLoader,
     },
     props: {
         roomData: {
@@ -130,10 +138,20 @@ export default {
         showModal() {
             this.showBookingModal = !this.showBookingModal;
         },
+    },
+    created() {
+        const img = new Image();
+        img.src = this.roomImage;
+        img.onload = () => {
+            this.showLoader = false;
+        };
     }
 }
 </script>
 
 <style scoped>
-
+.loader-container {
+    top: 50%;
+    left: 40%;
+}
 </style>

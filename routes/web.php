@@ -25,6 +25,8 @@ Route::get('/', function () {
     return Redirect::to(route('main'));
 });
 
+Route::get('/confirm-booking/{bookingId}/{userId}', [BookingController::class, 'confirmBooking']);
+
 Route::get('/hotels', function () {
     return Inertia::render('Main');
 })->middleware(['auth', 'verified'])->name('main');
@@ -68,11 +70,11 @@ Route::get('/facilities', [FacilityController::class, 'index'])
 // Booking
 Route::middleware('auth')->group(function () {
     Route::get('/bookings', function () {
-        return Inertia::render('');
+        return Inertia::render('Booking/BookingPage');
     })->name('bookings');
-    Route::get('/booking/dates/{room_id}', [BookingController::class, 'getBookedDates'])
-        ->name('bookings.dates');
-    Route::post('/booking', [BookingController::class, 'createBooking'])
-        ->name('booking.store');
+    Route::get('/booking/dates/{room_id}', [BookingController::class, 'getBookedDates'])->name('bookings.dates');
+    Route::post('/booking', [BookingController::class, 'createBooking'])->name('booking.store');
 });
+
+
 

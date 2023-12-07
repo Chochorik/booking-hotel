@@ -16,6 +16,7 @@ class Booking extends Model
         'finished_at',
         'days',
         'price',
+        'status',
     ];
 
     protected function room(): BelongsTo

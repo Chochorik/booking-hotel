@@ -36,24 +36,33 @@
                             </template>
                         </VDatePicker>
                     </div>
-                    <div class="w-full">
+                    <div class="w-full mb-6">
                         <h2 class="text-xl mb-3">
                             Итого:
                         </h2>
                         <p class="text-lg">
-                            Дней: {{ currentDays ? currentDays : 1 }}
+                            Дней: <span class="font-semibold">{{ currentDays ? currentDays : 1 }}</span>
                         </p>
                         <p class="text-lg">
-                            Общая стоимость: {{ currentPrice ? priceFormat(currentPrice) : 0 }}₽
+                            Общая стоимость: <span class="font-semibold">{{ currentPrice ? priceFormat(currentPrice) : 0 }}₽</span>
                         </p>
-                        <p v-if="postErrors.message" class="text-lg text-red-600">
-                            {{ postErrors.message }}
-                        </p>
+                    </div>
+                    <div v-if="postErrors">
+                        <p class="text-lg text-red-600">{{ postErrors.message }}</p>
+                    </div>
+                    <div v-if="postResponse" >
+                        <p class="text-lg text-green-600">{{ postResponse.message }}</p>
                     </div>
                 </div>
             </div>
             <div class="modal-action">
-                <button class="btn btn-primary" type="submit">Забронировать</button>
+                <button
+                    class="btn btn-primary"
+                    type="submit"
+                    :disabled="createBookingLoaded"
+                >
+                    {{ createBookingLoaded ? 'Подождите...' : 'Забронировать' }}
+                </button>
                 <button class="btn" @click.prevent="closeModal">Закрыть</button>
             </div>
         </form>
@@ -88,9 +97,12 @@ export default {
             masks: {
                 modelValue: 'YYYY-MM-DD',
             },
+
             postErrors: null,
             postResponse: null,
-        }
+
+            createBookingLoaded: false,
+        };
     },
     props: {
         showBookingModal: {
@@ -129,6 +141,11 @@ export default {
                 })
         },
         postBooking() {
+            this.createBookingLoaded = true;
+
+            this.postErrors = null;
+            this.postResponse = null;
+
             createBooking({
                 room_id: this.data.id,
                 started_at: this.datesRange.start,
@@ -136,9 +153,12 @@ export default {
             })
                 .then((response) => {
                     this.postResponse = response.data;
+                    this.createBookingLoaded = false;
+                    this.getBooking();
                 })
                 .catch((error) => {
                     this.postErrors = error.response.data.errors;
+                    this.createBookingLoaded = false;
                 });
 
             getBookedDates();

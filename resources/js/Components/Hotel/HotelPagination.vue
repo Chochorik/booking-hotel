@@ -1,5 +1,5 @@
 <template>
-    <div class="join">
+    <div v-show="count > 0" class="join">
         <button
             class="join-item btn disabled:opacity-75"
             @click.prevent="prevPage"

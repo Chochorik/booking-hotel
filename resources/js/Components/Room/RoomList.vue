@@ -6,7 +6,7 @@
             :room="room"
         />
     </ul>
-    <h3 v-else>
+    <h3 v-else class="text-xl">
         В этом отеле пока еще нет номеров...
     </h3>
 </template>

@@ -1,12 +1,14 @@
 <template>
-    <ul class="catalog__list grid grid-cols-3 gap-4">
+    <ul v-if="hotelsList.length > 0" class="catalog__list grid grid-cols-3 gap-4">
         <HotelItem
             v-for="hotel in hotelsList"
             :key="hotel.id"
             :hotel="hotel"
         />
     </ul>
-
+    <p class="text-lg" v-else>
+        Кажется, ничего не найдено...
+    </p>
 </template>
 
 <script>
@@ -22,7 +24,7 @@ export default {
     },
     computed: {
         hotelsList() {
-            return this.hotels.data;
+            return this.hotels.data || [];
         },
     },
 }
