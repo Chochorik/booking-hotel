@@ -13,6 +13,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         $schedule->command('clean:pending-bookings')->everyMinute();
+        $schedule->command('cancel:bookings')->daily();
     }
 
     /**

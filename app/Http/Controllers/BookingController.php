@@ -14,11 +14,29 @@ use Illuminate\Support\Facades\Notification;
 
 class BookingController extends Controller
 {
+    // Метод для получаения информации о забронированных номерах
+    public function index(): \Illuminate\Http\JsonResponse
+    {
+        $bookingInfo = Booking::query()
+            ->where('user_id', auth()->user()->id)
+            ->with('room')
+            ->get([
+                'id',
+                'room_id',
+                'started_at',
+                'finished_at',
+                'days',
+                'price',
+                'status',
+            ]);
+
+        return response()->json($bookingInfo);
+    }
+
     // Метод, отдающий массив забронированных дат на просматриваемом номере отеля
     public function getBookedDates(Request $request, $room_id): \Illuminate\Http\JsonResponse
     {
         $bookedDates = Booking::where('room_id', $room_id)
-            ->where('status', '<>', 'pending')
             ->get(['started_at', 'finished_at'])
             ->toArray();
 
@@ -64,7 +82,7 @@ class BookingController extends Controller
         if ($existingBookings->isNotEmpty()) {
             return response()->json([
                 'errors' => [
-                    'message' => 'Выбранные даты уже забронированы.',
+                    'message' => 'Выбранные даты уже забронированы',
                 ],
             ], 422);
         }

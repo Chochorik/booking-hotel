@@ -21,14 +21,14 @@
                             is-required
                         >
                             <template #default="{ inputValue, inputEvents }">
-                                <div class="grid grid-cols-2 gap-4 justify-between items-center">
+                                <div class="grid grid-cols-2 gap-6 justify-between items-center">
                                     <div class="flex flex-col justify-center items-left">
-                                        <InputLabel value="Начало:" />
+                                        <InputLabel class="pl-5 pb-1" value="Заселение:" />
                                         <InputDefault :model-value="inputValue.start" v-on="inputEvents.start"/>
                                         <InputError :messages="postErrors ? postErrors.started_at : '' " />
                                     </div>
                                     <div class="flex flex-col justify-center items-left">
-                                        <InputLabel value="Конец:" />
+                                        <InputLabel class="pl-5 pb-1" value="Выселение:" />
                                         <InputDefault :model-value="inputValue.end" v-on="inputEvents.end" />
                                         <InputError :messages="postErrors ? postErrors.finished_at : '' " />
                                     </div>
@@ -61,7 +61,8 @@
                     type="submit"
                     :disabled="createBookingLoaded"
                 >
-                    {{ createBookingLoaded ? 'Подождите...' : 'Забронировать' }}
+                    <span :class="{ 'loading loading-spinner': createBookingLoaded }"></span>
+                    {{ createBookingLoaded ? 'Загрузка...' : 'Забронировать'}}
                 </button>
                 <button class="btn" @click.prevent="closeModal">Закрыть</button>
             </div>

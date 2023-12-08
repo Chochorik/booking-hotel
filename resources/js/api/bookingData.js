@@ -11,3 +11,7 @@ export function createBooking(params) {
         'finished_at': params.finished_at,
     });
 }
+
+export function getBookings() {
+    return axios.get(route('bookings.info'));
+}

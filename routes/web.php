@@ -72,6 +72,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/bookings', function () {
         return Inertia::render('Booking/BookingPage');
     })->name('bookings');
+    Route::get('/bookings/info', [BookingController::class, 'index'])->name('bookings.info');
     Route::get('/booking/dates/{room_id}', [BookingController::class, 'getBookedDates'])->name('bookings.dates');
     Route::post('/booking', [BookingController::class, 'createBooking'])->name('booking.store');
 });
