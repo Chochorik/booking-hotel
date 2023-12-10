@@ -35,7 +35,7 @@ class HandleInertiaRequests extends Middleware
         $bookingInfo = null;
 
         if ($user !== null) {
-            $bookingCount = Booking::query()->where('user_id', $user->id)->get(['id']);
+            $bookingInfo = Booking::query()->where('user_id', $user->id)->get(['id']);
         }
 
         return [
@@ -48,7 +48,7 @@ class HandleInertiaRequests extends Middleware
                 'location' => $request->url(),
             ],
             'booking' => [
-                'booking_info' => $bookingCount,
+                'booking_info' => $bookingInfo,
             ],
         ];
     }
