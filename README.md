@@ -15,7 +15,7 @@ MySQL или другая поддерживаемая база данных
 Клонирование репозитория:
 
 ```
-git clone https://github.com/your-username/your-project.git
+git clone https://github.com/Chochorik/booking-hotel
 cd your-project
 ```
 Установка зависимостей:
