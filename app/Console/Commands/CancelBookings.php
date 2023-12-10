@@ -29,8 +29,8 @@ class CancelBookings extends Command
         // Найдите и обновите бронирования, у которых finished_at была вчера
         Booking::whereDate('finished_at', '=', now()->subDay())
             ->where('status', '<>', 'canceled')
-            ->update(['status' => 'canceled']);
+            ->delete();
 
-        $this->info('Bookings canceled successfully.');
+        $this->info('Bookings deleted successfully.');
     }
 }

@@ -15,3 +15,7 @@ export function createBooking(params) {
 export function getBookings() {
     return axios.get(route('bookings.info'));
 }
+
+export function deleteBooking(bookingId) {
+    return axios.patch(route('booking.destroy', { booking_id: bookingId }));
+}

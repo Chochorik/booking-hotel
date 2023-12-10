@@ -1,26 +1,32 @@
 <template>
     <tr>
-        <th>
+        <th class="font-normal">
             {{ room.title }}
         </th>
-        <th>
+        <th class="font-normal">
             {{ booking.started_at }}
         </th>
-        <th>
+        <th class="font-normal">
             {{ booking.finished_at }}
         </th>
-        <th>
+        <th class="font-normal">
             {{ pluralizationDays(booking.days) }}
         </th>
-        <th>
+        <th class="font-normal">
             {{ priceFormat(booking.price) }} ₽
         </th>
-        <th>
+        <th
+            :class="{
+                'status-confirmed': booking.status === 'confirmed',
+                'status-pending': booking.status === 'pending',
+                'status-canceled': booking.status === 'canceled'
+            }"
+        >
             {{ bookingStatus }}
         </th>
         <th>
-            <button class="btn btn-active btn-primary">
-                Подробнее...
+            <button class="btn btn-active btn-primary" @click.prevent="showModal">
+                Подробнее
             </button>
         </th>
     </tr>
@@ -29,9 +35,18 @@
 <script>
 import priceFormat from "@/helpers/priceFormat.js";
 import pluralizationDays from "@/helpers/pluralizationDays.js";
+import RoomModal from "@/Components/Room/RoomModal.vue";
 
 export default {
     name: "BookingItem",
+    data() {
+        return {
+            showRoomModal: false,
+        }
+    },
+    components: {
+        RoomModal,
+    },
     props: {
         booking: {
             type: Object,
@@ -50,16 +65,29 @@ export default {
                 return 'Подтвержден';
             }
 
-            return 'Истек';
+            return 'Отменен';
         },
     },
     methods: {
         priceFormat,
         pluralizationDays,
+        showModal() {
+            this.$emit('show-modal', this.booking);
+        },
     }
 }
 </script>
 
 <style scoped>
+.status-confirmed {
+    color: #0ebd2e;
+}
 
+.status-pending {
+    color: #ea0000;
+}
+
+.status-canceled {
+    color: #645091;
+}
 </style>

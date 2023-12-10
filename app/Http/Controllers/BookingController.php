@@ -48,7 +48,7 @@ class BookingController extends Controller
      * и отправки уведомления на почту пользователя с просьбой
      * подтвердить бронь номера
      */
-    public function createBooking(Request $request): \Illuminate\Http\JsonResponse
+    public function create(Request $request): \Illuminate\Http\JsonResponse
     {
         $user = auth()->user();
 
@@ -114,7 +114,7 @@ class BookingController extends Controller
     }
 
     // Метод для подтверждения бронирования номера отеля
-    public function confirmBooking(Request $request, $bookingId, $userId): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\Contracts\Foundation\Application
+    public function confirm(Request $request, $bookingId, $userId): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\Contracts\Foundation\Application
     {
         $user = User::findOrFail($userId);
         $booking = Booking::findOrFail($bookingId);
@@ -136,5 +136,29 @@ class BookingController extends Controller
         }
 
         return view('booking-error');
+    }
+
+    // Метод для отмены бронирования
+    public function cancel(Request $request, $booking_id): \Illuminate\Http\JsonResponse
+    {
+        try {
+            $booking = Booking::findOrFail($booking_id);
+
+            if ($booking->status !== 'canceled') {
+                $booking->update(['status' => 'canceled']);
+
+                return response()->json([
+                    'message' => 'Бронирование успешно отменено.',
+                ]);
+            }
+
+            return response()->json([
+                'error' => 'Бронирование уже отменено.',
+            ], 422);
+        } catch (\Exception $exception) {
+            return response()->json([
+                'errors' => $exception->getMessage(),
+            ], 500);
+        }
     }
 }

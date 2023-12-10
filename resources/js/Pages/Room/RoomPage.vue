@@ -82,7 +82,7 @@
                     </ul>
             </div>
             <BookingModal
-                v-model:showBookingModal="showBookingModal"
+                v-model:show-booking-modal="showBookingModal"
                 :data="room"
             />
         </div>

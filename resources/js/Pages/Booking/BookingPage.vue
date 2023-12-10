@@ -19,6 +19,7 @@
             <BookingList
                 v-else
                 :bookings="bookings"
+                @booking-cancelled="getUserBookings"
             />
         </div>
     </AuthenticatedLayout>

@@ -12,29 +12,58 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody class="text-lg font-normal">
+            <tbody class="text-lg">
                 <BookingItem
                     v-for="booking in bookings"
                     :key="booking.id"
                     :booking="booking"
+                    @show-modal="showModal"
                 />
             </tbody>
         </table>
+        <RoomModal
+            v-if="selectedBooking"
+            v-model:show-room-modal="showRoomModal"
+            :booking="selectedBooking"
+            @close-modal="closeModal"
+            @booking-cancelled="handleBookingCancelled"
+        />
     </div>
 </template>
 
 <script>
 import BookingItem from "@/Components/Booking/BookingItem.vue";
+import RoomModal from "@/Components/Room/RoomModal.vue";
 
 export default {
     name: "BookingList",
+    data() {
+        return {
+            selectedBooking: null,
+            showRoomModal: false,
+        }
+    },
     components: {
         BookingItem,
+        RoomModal,
     },
     props: {
         bookings: {
             type: Array,
             default: [],
+        },
+    },
+    methods: {
+        showModal(booking) {
+            this.selectedBooking = booking;
+            this.showRoomModal = true;
+        },
+        closeModal() {
+            this.selectedBooking = null;
+            this.showRoomModal = false;
+        },
+        handleBookingCancelled() {
+            this.$emit('booking-cancelled');
         },
     },
 }
