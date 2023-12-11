@@ -16,8 +16,11 @@
                 class="pt-10"
                 v-if="loadingStatus"
             />
+            <h2 v-if="bookings.length === 0" class="text-center text-lg">
+                Кажется, у Вас пока нет забронированных номеров...
+            </h2>
             <BookingList
-                v-else
+                v-show="bookings.length > 0"
                 :bookings="bookings"
                 @booking-cancelled="getUserBookings"
             />
@@ -38,7 +41,7 @@ export default {
     name: "BookingPage",
     data() {
         return {
-            bookings: null,
+            bookings: [],
 
             loadingStatus: false,
         }

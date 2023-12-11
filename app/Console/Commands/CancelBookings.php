@@ -26,10 +26,9 @@ class CancelBookings extends Command
      */
     public function handle()
     {
-        // Найдите и обновите бронирования, у которых finished_at была вчера
         Booking::whereDate('finished_at', '=', now()->subDay())
-            ->where('status', '<>', 'canceled')
-            ->delete();
+            ->where('status', '<>', 'expired')
+            ->update(['status' => 'expired']);
 
         $this->info('Bookings deleted successfully.');
     }

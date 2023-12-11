@@ -162,7 +162,7 @@ export default {
                     this.createBookingLoaded = false;
                 });
 
-            getBookedDates();
+            getBookedDates(this.data.id);
         },
         formatDate(date) {
             const year = date.getFullYear();
