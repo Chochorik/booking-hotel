@@ -161,4 +161,20 @@ class BookingController extends Controller
             ], 500);
         }
     }
+
+    public function destroy(Request $request, $booking_id): \Illuminate\Http\JsonResponse
+    {
+        try {
+            Booking::findOrFail($booking_id)->delete();
+
+            return response()->json([
+                'message' => 'Бронь была удалена'
+            ], 204);
+        } catch (\Exception $exception) {
+            return response()->json([
+                'errors' => $exception->getMessage(),
+            ], 500);
+        }
+
+    }
 }

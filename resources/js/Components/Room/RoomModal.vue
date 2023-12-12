@@ -22,6 +22,9 @@
                 <p v-if="bookingStatus === 'pending'" class="text-lg text-center">
                     Необходимо подтвердить бронирование! Пожалуйста, проверьте Вашу почту.
                 </p>
+                <p v-if="deletingResponse.message" class="text-lg text-center text-green-600">
+                    {{ deletingResponse.message }}
+                </p>
             </div>
             <div class="modal-action">
                 <button
@@ -30,6 +33,13 @@
                     @click.prevent="cancelBooking"
                 >
                     Отменить бронирование
+                </button>
+                <button
+                    class="btn btn-error"
+                    v-if="bookingStatus === 'canceled' || bookingStatus === 'expired'"
+                    @click.prevent="destroyBooking"
+                >
+                    Удалить
                 </button>
 
                 <button class="btn" @click.prevent="closeModal">Закрыть</button>
@@ -43,13 +53,13 @@ import Modal from '@/Components/Modal.vue';
 import VLoader from "@/Components/VLoader.vue";
 import RoomModalTable from "@/Components/Room/RoomModalTable.vue";
 import { NO_PHOTO_URL } from "@/dataConfig.js";
-import { deleteBooking } from "@/api/bookingData.js";
+import { cancelBooking, deleteBooking } from "@/api/bookingData.js";
 
 export default {
     name: "RoomModal",
     data() {
         return {
-            deletingResponse: null,
+            deletingResponse: '',
             deletingErrors: null,
 
             showDeletingLoader: false,
@@ -95,6 +105,18 @@ export default {
         cancelBooking() {
             this.showDeletingLoader = true;
 
+            cancelBooking(this.booking.id)
+                .then((response) => {
+                    this.deletingResponse = response.data;
+                    this.showDeletingLoader = false;
+                    this.$emit('booking-cancelled');
+                })
+                .catch((response) => {
+                    this.deletingErrors = response.data;
+                    this.showDeletingLoader = false;
+                });
+        },
+        destroyBooking() {
             deleteBooking(this.booking.id)
                 .then((response) => {
                     this.deletingResponse = response.data;

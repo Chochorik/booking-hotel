@@ -16,6 +16,10 @@ export function getBookings() {
     return axios.get(route('bookings.info'));
 }
 
+export function cancelBooking(bookingId) {
+    return axios.patch(route('booking.cancel', { booking_id: bookingId }));
+}
+
 export function deleteBooking(bookingId) {
-    return axios.patch(route('booking.destroy', { booking_id: bookingId }));
+    return axios.delete(route('booking.delete', { booking_id: bookingId }));
 }

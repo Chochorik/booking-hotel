@@ -16,7 +16,10 @@
                 class="pt-10"
                 v-if="loadingStatus"
             />
-            <h2 v-if="bookings.length === 0" class="text-center text-lg">
+            <h2
+                v-if="bookings.length === 0"
+                v-show="!loadingStatus"
+                class="text-center text-lg">
                 Кажется, у Вас пока нет забронированных номеров...
             </h2>
             <BookingList

@@ -74,7 +74,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/bookings/info', [BookingController::class, 'index'])->name('bookings.info');
     Route::get('/booking/dates/{room_id}', [BookingController::class, 'getBookedDates'])->name('bookings.dates');
     Route::post('/booking', [BookingController::class, 'create'])->name('booking.store');
-    Route::patch('/booking/{booking_id}', [BookingController::class, 'cancel'])->name('booking.destroy');
+    Route::patch('/booking/{booking_id}', [BookingController::class, 'cancel'])->name('booking.cancel');
+    Route::delete('/booking/{booking_id}', [BookingController::class, 'destroy'])->name('booking.delete');
 });
 
 Route::get('/confirm-booking/{bookingId}/{userId}', [BookingController::class, 'confirm']);

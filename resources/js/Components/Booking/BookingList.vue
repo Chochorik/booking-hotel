@@ -40,6 +40,7 @@ export default {
     data() {
         return {
             selectedBooking: null,
+
             showRoomModal: false,
         }
     },
@@ -64,6 +65,11 @@ export default {
         },
         handleBookingCancelled() {
             this.$emit('booking-cancelled');
+        },
+    },
+    watch: {
+        bookings(newBookings) {
+            this.selectedBooking = newBookings.length > 0 ? newBookings[0] : null;
         },
     },
 }

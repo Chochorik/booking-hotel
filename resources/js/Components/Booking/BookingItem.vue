@@ -63,9 +63,11 @@ export default {
                 return 'Не подтвержден';
             } else if (this.booking.status === 'confirmed') {
                 return 'Подтвержден';
+            } else if (this.booking.status === 'canceled') {
+                return 'Отменен'
             }
 
-            return 'Отменен';
+            return 'Истек';
         },
     },
     methods: {
