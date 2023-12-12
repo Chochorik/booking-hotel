@@ -2,7 +2,7 @@
 Этот проект представляет собой веб-приложение, разработанное с использованием фреймворка Laravel для бэкенда и Vue.js для фронтенда. Ниже приведены шаги по развертыванию проекта.
 
 ## Требования
-PHP >= 7.4
+PHP >= 8.1
 
 Composer
 
@@ -18,12 +18,14 @@ MySQL или другая поддерживаемая база данных
 git clone https://github.com/Chochorik/booking-hotel
 cd your-project
 ```
+
 Установка зависимостей:
 
 ```
 composer install
 npm install
 ```
+
 Настройка файла .env:
 
 Создайте копию .env.example и назовите её .env.
@@ -47,7 +49,7 @@ php artisan migrate
 php artisan db:seed --class=VoyagerDatabaseSeeder
 ```
 
-Если вы хотите создать нового пользователя с правами администратора, вы можете передать флаг --create, как показано ниже.:
+Если вы хотите создать нового пользователя с правами администратора, вы можете передать флаг --create, как показано ниже:
 ```
 php artisan voyager:admin your@email.com --create
 ```
